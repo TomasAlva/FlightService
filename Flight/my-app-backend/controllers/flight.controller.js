@@ -40,7 +40,6 @@ const findFlightByNum = async id => {//Will find flight by id
         console.error(err);
         throw{ status: 404, message: err };//Will reject the promise
     }
-
 }
 
 const deleteFlight = async id => {
