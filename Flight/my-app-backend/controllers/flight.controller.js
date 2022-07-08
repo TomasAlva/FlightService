@@ -1,7 +1,7 @@
 const Flight = require('../models/Flights.model')
 
 const createFlight = async ({flightNum, departureDate, arrivalDate, departureTime, arrivalTime, departureAirport,
-                             arrivalAirport, flightPassangerCurrent, flightPassangerMin, flightPassangerMax}) => {
+                             arrivalAirport, flightPassangerCurrent,  flightPassangerMax}) => {
     try {
         const flight = new Flight({
             flightNum, 
@@ -12,7 +12,6 @@ const createFlight = async ({flightNum, departureDate, arrivalDate, departureTim
             departureAirport,
             arrivalAirport, 
             flightPassangerCurrent,
-            flightPassangerMin,
             flightPassangerMax
         });
         await flight.save();//Saves newly created flight to the DB
@@ -40,10 +39,12 @@ const findFlightByNum = async id => {//Will find flight by id
         console.error(err);
         throw{ status: 404, message: err };//Will reject the promise
     }
+
 }
 
 const deleteFlight = async id => {
     try{
+        console.log(id);
         const flight = await Flight.findByIdAndDelete(id);
         if(flight == null){
             throw `No flights with the id of ${id} found.`;
@@ -55,27 +56,27 @@ const deleteFlight = async id => {
     }
 }
 
-const arrivalDate = async () => {
-    
-}
-
-const departureDate = async () => {
-
-}
-
-const departureAirport = async () => {
-
-}
-
-const arrivalAirport = async () => {
-
-}
-
-const flightPassangers = async () => {
-
+const updateFlight = async req =>{
+    try{
+        const updateData = {
+            flightNum: req.body.flightNum,
+            departureAirport: req.body.departureAirport,
+            arrivalAirport: req.body.arrivalAirport,
+            departureDate: req.body.departureDate,
+            arrivalDate: req.body.arrivalDate,
+            departureTime: req.body.departureTime,
+            arrivalTime: req.body.arrivalTime,
+            flightPassangerMax: req.body.flightPassangerMax,
+            flightPassangerCurrent: req.body.flightPassangerCurrent
+        }
+        await Flight.findByIdAndUpdate(req.params.id, updateData);
+        return `Flight has been sucessfully updated.`;
+    }catch(err){
+        console.error(err);
+        throw{status:400, message:err};
+    }
 }
 
 module.exports = {
-    createFlight, showAllFlighs, findFlightByNum, deleteFlight, arrivalDate, 
-    departureAirport, departureDate, arrivalAirport, flightPassangers
+    createFlight, showAllFlighs, findFlightByNum, deleteFlight, updateFlight, 
 };

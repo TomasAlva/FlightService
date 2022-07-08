@@ -1,6 +1,5 @@
 const router = require('express').Router();
-const {createFlight, showAllFlighs, findFlightByNum, deleteFlight, arrivalDate, 
-      departureAirport, departureDate, arrivalAirport, flightPassangers} = 
+const {createFlight, showAllFlighs, findFlightByNum, deleteFlight, updateFlight,} = 
       require('../controllers/flight.controller')
 
 router.get('/', async (req,res) => {
@@ -13,19 +12,29 @@ router.post('/', async (req,res) => {
         const flightId = await createFlight(req.body);
         res.status(201).json({_id: flightId});
     } catch (err) {
-        res.status(err?.status || 500).json(err);
+        res.status(err?.status || 400).json(err);
     }
 });
 
-// router.get('/flights', (req,res) => {// Test code //
-//     res.send('hello1');
-//     console.log('2');
-// });
+router.delete('/:id', async (req,res) => {
+    try{
+        const flightId = await deleteFlight(req.params.id);
+        console.log(flightId);
+        res.status(201).json({_id: flightId});
+    } catch (err) {
+        res.status(err?.statuse || 400).json(err);
+    }
+});
 
-// router.post('/flights', (req,res) => {// Test code //
-//     res.send('POST create new flight!');
-//     console.log('hello1.1');
-// });
+router.put('/:id', async (req,res) => {
+    try{
+        const flight = await updateFlight(req);
+        res.status(201).json({_id: flight});
+    }
+    catch (err){
+        res.status(err?.status || 400).json(err);
+    }
+})
 
 router.get('/:id', async (req,res) =>{
     try {
