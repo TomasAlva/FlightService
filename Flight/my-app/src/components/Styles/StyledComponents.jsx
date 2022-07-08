@@ -6,7 +6,7 @@ export const Center = styled.div`
     justify-content: center;
 `;
 export const MiddleOfPage = styled.div`
-    display: inline;
+    display: flex;
     justify-content: center;
     align-items: center;
 `;

@@ -3,41 +3,43 @@ import { Form } from "./FlightForm";
 import axios from 'axios';
 import { FormRow, Center } from "../../components/Styles/StyledComponents";
 
-export const UpdateFlightForm = (data) => {
-    const flightNum = useRef();
-    const depAirport = useRef();
-    const arrAirport = useRef();
-    const depDate = useRef();
-    const arrDate = useRef();
-    const depTime = useRef();
-    const arrTime = useRef();
-    const passangerAmount = useRef();
+export const UpdateFlightForm = ({flight_Id, flightNum, departureDate, arrivalDate, departureAirport, arrivalAirport,
+                                    departureTime, arrivalTime, flightPassangerCurrent }) => {
+    const flightNumRef = useRef();
+    const depAirportRef = useRef();
+    const arrAirportRef = useRef();
+    const depDateRef = useRef();
+    const arrDateRef = useRef();
+    const depTimeRef = useRef();
+    const arrTimeRef = useRef();
+    const passangerAmountRef = useRef();
     let success = false;
-
-    const handleSubmit = async(event) => {
-            event.preventDefault()
-            const urlPath = 'http://localhost:8088/flights/:id';
+    
+    const onSubmit = async () => {
+            
+            //const urlPath = 'http://localhost:8088/flights/:id';
         
             try{
-                await axios.put(urlPath, {
-                    flightNum: flightNum.current.value,
-                    departureAirport: depAirport.current.value,
-                    arrivalAirport: arrAirport.current.value,
-                    departureDate: depDate.current.value,
-                    arrivalDate: arrDate.current.value,
-                    departureTime: depTime.current.value,
-                    arrivalTime: arrTime.current.value,
-                    flightPassangerCurrent: passangerAmount.current.value,
+                await axios.put(`http://localhost:8088/flights/${flight_Id}`, {
+                    flightNum: flightNumRef.current.value,
+                    departureAirport: depAirportRef.current.value,
+                    arrivalAirport: arrAirportRef.current.value,
+                    departureDate: depDateRef.current.value,
+                    arrivalDate: arrDateRef.current.value,
+                    departureTime: depTimeRef.current.value,
+                    arrivalTime: arrTimeRef.current.value,
+                    flightPassangerCurrent: passangerAmountRef.current.value,
                 }).then(response => console.log("Flight successfully updated!"))
-            
-            flightNum.current.value = null;
-            depAirport.current.value = null;
-            arrAirport.current.value = null;
-            depDate.current.value = null;
-            arrDate.current.value = null;
-            depTime.current.value = null;
-            arrTime.current.value = null;
-            passangerAmount.current.value = null;
+           
+            flightNumRef.current.value = null;
+            depAirportRef.current.value = null;
+            arrAirportRef.current.value = null;
+            depDateRef.current.value = null;
+            arrDateRef.current.value = null;
+            depTimeRef.current.value = null;
+            arrTimeRef.current.value = null;
+            passangerAmountRef.current.value = null;
+            success = true;
             }catch (err) {
                 console.log(err);
                 success = false
@@ -50,54 +52,63 @@ export const UpdateFlightForm = (data) => {
         }
         return (
             <Form>
+                <form onSubmit ={(event) => {event.preventDefault(); onSubmit()}}>
                 <Center>
                     <h3>Flight Update Form</h3>
                 </Center>
                 <Center>
                 <FormRow>
+                    <lable htmlFor='flightNum'>Flight Number: </lable>
+                    <input defaultValue={flightNum} placeholder={flightNum} id='flightNum' type="string" size="25" placeHolder="Enter Flight Number" ref={flightNumRef} required />
+                </FormRow>
+                </Center>
+                <Center>
+                <FormRow>
                     <lable htmlFor='depAirport'>Departure Airport: </lable>
-                    <input id='depAirport' type="string" size="25" placeHolder="Enter a Departure Airport" ref={depAirport} required />
+                    <input defaultValue={departureAirport} placeholder={departureAirport} id='depAirport' type="string" size="25" placeHolder="Enter a Departure Airport" ref={depAirportRef} required />
                 </FormRow>
                 </Center>
                 <Center>
                 <FormRow>
                     <lable htmlFor='arrAirport'>Arrival Airport: </lable>
-                    <input id='arrAirport' type="String" size="25" placeHolder="Enter an Arrival Airport" ref={arrAirport} required />
+                    <input defaultValue={arrivalAirport} placeholder={arrivalAirport} id='arrAirport' type="String" size="25" placeHolder="Enter an Arrival Airport" ref={arrAirportRef} required />
                 </FormRow>
                 </Center>
                 <Center>
                 <FormRow>
                     <lable htmlFor='depDate'>Departure Date: </lable>
-                    <input id='depDate' type="Date" ref={depDate} required />
+                    <input defaultValue={departureDate} placeholder={departureDate} id='depDate' type="Date" ref={depDateRef} required />
                 </FormRow>
                 </Center>
                 <Center>
                 <FormRow>
                     <lable htmlFor='arrDate'>Arrival Date: </lable>
-                    <input id='arrDate' type="Date" ref={arrDate} required />
+                    <input defaultValue={arrivalDate} placeholder={arrivalDate} id='arrDate' type="Date" ref={arrDateRef} required />
                 </FormRow>
                 </Center>
                 <Center>
                 <FormRow>
                     <lable htmlFor='depTime'>Departure Time: </lable>
-                    <input id='depTime' type="time" ref={depTime} required />
+                    <input defaultValue={departureTime} placeholder={departureTime} id='depTime' type="time" ref={depTimeRef} required />
                 </FormRow>
                 </Center>
                 <Center>
                 <FormRow>
                     <lable htmlFor='arrTime'>Arrival Time: </lable>
-                    <input id='arrTime' type="time" ref={arrTime} required />
+                    <input defaultValue={arrivalTime} placeholder={arrivalTime} id='arrTime' type="time" ref={arrTimeRef} required />
                 </FormRow>
                 </Center>
                 <Center>
                 <FormRow>
                     <lable htmlFor='passangerAmount'>Number of Passangers: </lable>
-                    <input id='passangerAmount' type="text" size="25" placeHolder="Enter Number of Passangers" ref={passangerAmount} required />
+                    <input defaultValue={flightPassangerCurrent} placeholder={flightPassangerCurrent} id='passangerAmount' type="text" size="25" placeHolder="Enter Number of Passangers" ref={passangerAmountRef} required />
                 </FormRow>
                 </Center>
                 <Center>
-                    <button onClick={handleSubmit}>Submit form</button>
+                    {/*<button onClick>Submit form</button>*/}
+                    <input type="submit" value="Update Flight"/>
                 </Center>
+                </form>
             </Form>
         )
 }

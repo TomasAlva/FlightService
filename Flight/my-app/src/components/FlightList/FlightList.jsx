@@ -51,7 +51,17 @@ export const FlightList = () => {
                         <div><b>Current Passanger count: </b>{flight.flightPassangerCurrent}</div>
                         <div><b>Max Passanger count: </b>{flight.flightPassangerMax}</div> 
                         <button onClick={() =>handleDelete(flight._id)}>Delete Flight</button>
-                        <Link to='/updateflight'>
+                        <Link to = "/updateflight"
+                            flight_Id = {flight._id}
+                            flightNum = {flight.flightNum} 
+                            departureDate =  {flight.departureDate}
+                            arrivalDate = {flight.arrivalDate}
+                            departureAirport = {flight.departureAirport}
+                            arrivalAirport = {flight.arrivalAirport}
+                            departureTime = {flight.departureTime}
+                            arrivalTime = {flight.arrivalTime}
+                            flightPassangerCurrent = {flight.flightPassangerCurrent}
+                        >
                             <button onClick={() => handleUpdate(flight._id)}>Update Flight</button>
                         </Link>
                     </div>
